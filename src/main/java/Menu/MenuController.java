@@ -5,54 +5,43 @@ import java.util.Scanner;
 import java.util.Stack;
 
 public class MenuController {
-	private final Scanner scanner = new Scanner(System.in);
 	private final Stack<MenuPage> menuPageStack = new Stack<>();
+	private MenuPage currentPage;
 	private final HashMap<String, MenuPage> menuPageMap;
+	private final MenuRenderer renderer;
 
 	private boolean isRunning;
 
-	public MenuController(MenuCreator creator, String startPage) {
+	public MenuController(MenuCreator creator, MenuRenderer renderer, MenuPage startPage) {
+		creator.setController(this);
 		this.menuPageMap = creator.getPageMap();
-		this.menuPageStack.push(this.menuPageMap.get(startPage));
+		//this.menuPageStack.push(this.menuPageMap.get(startPage));
+		this.renderer = renderer;
+		this.currentPage = startPage;
 	}
 
-	public void run() {
+	public void run() throws IllegalArgumentException {
 		isRunning = true;
 		while (isRunning) {
+			this.renderer.renderTitle(currentPage.getTitle());
+			this.renderer.renderItems(currentPage.getItemList());
 
-			System.out.println(menuPageStack.peek());
-			System.out.println("0. "+Messages.GET_BACK);
-
-			boolean correctCheck = true;
-			while (correctCheck) {
-				int input;
+			while (true) {
+				int index = this.renderer.getUserChoice();
 				try {
-					input = Integer.parseInt(scanner.nextLine());
-				} catch (NumberFormatException e) {
-					System.out.println(Messages.INCORRECT_INPUT);
+					MenuPage page = this.currentPage.getItem(index).runActions();
+					if (page!=null)
+						currentPage = page;
+				} catch (IndexOutOfBoundsException e) {
+					this.renderer.renderMessage(Messages.INDEX_OUT_OF_BOUNDS.toString());
 					continue;
 				}
-				if (input > 9 || input < 0) {
-					System.out.println(Messages.INCORRECT_INPUT);
-					continue;
-				}
-				if (input == 0) {
-					menuPageStack.pop();
-					isRunning = !(menuPageStack.isEmpty());
-					break;
-				} else {
-					try {
-						String link = menuPageStack.peek().getItem(input - 1).run();
-						if (link != null) {
-							menuPageStack.push(menuPageMap.get(link));
-						}
-						correctCheck = false;
-					} catch (IndexOutOfBoundsException e) {
-						System.out.println(Messages.INDEX_OUT_OF_BOUNDS);
-						continue;
-					}
-				}
+				break;
 			}
 		}
+	}
+
+	public void stop() {
+		isRunning = false;
 	}
 }
