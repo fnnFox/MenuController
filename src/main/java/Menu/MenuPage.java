@@ -2,12 +2,16 @@ package Menu;
 
 import java.util.ArrayList;
 
-public class MenuPage {
+public class MenuPage extends MenuObject {
 	private String title;
 	private ArrayList<MenuItem> itemList = new ArrayList<>();
 
-	public MenuPage(String title) {
+	public MenuPage(String name, String title) {
+		super(name);
 		this.title = title;
+	}
+	public MenuPage(String name) {
+		super(name);
 	}
 	public void addItem(MenuItem item) throws IllegalStateException {
 		if (itemList.size()<9)
@@ -18,6 +22,14 @@ public class MenuPage {
 	public MenuItem getItem(int index) throws IndexOutOfBoundsException {
 		if (index < -1 || index >= itemList.size()) throw new IndexOutOfBoundsException();
 		return itemList.get(index);
+	}
+	public String getTitle() {
+		return title;
+	}
+
+	public MenuPage setTitle(String title) {
+		this.title = title;
+		return this;
 	}
 
 	@Override

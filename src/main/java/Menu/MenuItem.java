@@ -3,12 +3,14 @@ package Menu;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MenuItem {
+public class MenuItem extends MenuObject {
 	private String label;
 	private final List<Action> actions;
 	private String link;
+	private MenuPage parent;
 
 	public MenuItem(Builder builder) {
+		super(builder.name);
 		this.label = builder.label;
 		this.actions = builder.actions;
 		this.link = builder.link;
@@ -39,13 +41,24 @@ public class MenuItem {
 	public void setLink(String link) {
 		this.link = link;
 	}
+	public MenuPage getParent() {
+		return parent;
+	}
+	public void setParent(MenuPage parent) {
+		this.parent = parent;
+	}
 
 	public static class Builder {
 
+		private String name;
 		private String label;
 		private final List<Action> actions = new ArrayList<>();
 		private String link;
 
+		public Builder setName(String name) {
+			this.name = name;
+			return this;
+		}
 		public Builder setLabel(String label) {
 			this.label = label;
 			return this;

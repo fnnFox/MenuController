@@ -4,21 +4,14 @@ import java.util.HashMap;
 
 public class MenuCreator {
 	private final HashMap<String, MenuPage> pageMap = new HashMap<>();
-	private MenuPage currentPage;
 
-	public void addPage(String name, String title) {
-		MenuPage page = new MenuPage(title);
-		pageMap.put(name, page);
-		currentPage = page;
+	public MenuPage addPage(String name) {
+		MenuPage page = new MenuPage(name);
+		pageMap.put(page.getName(), page);
+		return page;
 	}
-	public void selectPage(String title) {
-		MenuPage page = pageMap.get(title);
-		if (page != null) {
-			currentPage = page;
-		}
-	}
-	public void addItemsToSelectedPage(MenuItem item) {
-		currentPage.addItem(item);
+	public MenuPage getPage(String name) {
+		return pageMap.get(name);
 	}
 	public HashMap<String, MenuPage> getPageMap() {
 		return pageMap;
