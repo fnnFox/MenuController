@@ -1,4 +1,4 @@
-package Menu;
+package Interfaces;
 
 public interface Action {
 	/**

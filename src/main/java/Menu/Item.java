@@ -1,29 +1,32 @@
 package Menu;
 
+import Abstract.MenuObject;
+import Interfaces.Action;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class MenuItem extends MenuObject {
+public class Item extends MenuObject {
 	private static String backerLabel = "Back";
 	private static String enderLabel = "Exit";
 	private String label;
 	private final List<Action> actions;
-	private MenuPage link;
+	private Page link;
 
-	public MenuItem(Builder builder) {
+	public Item(Builder builder) {
 		super(builder.name,builder.parent);
 		this.label = builder.label;
 		this.link = builder.link;
 		this.actions = builder.actions;
 	}
-	public MenuItem(String name, MenuObject parent, MenuPage link, String label) {
+	public Item(String name, MenuObject parent, Page link, String label) {
 		super(name,parent);
 		this.label = label;
 		this.link = link;
 		this.actions = new ArrayList<>();
 	}
 
-	public MenuItem setLabel(String label) {
+	public Item setLabel(String label) {
 		this.label = label;
 		return this;
 	}
@@ -31,15 +34,15 @@ public class MenuItem extends MenuObject {
 		return label;
 	}
 
-	public MenuItem addAction(Action action) {
+	public Item addAction(Action action) {
 		this.actions.add(action);
 		return this;
 	}
-	public MenuItem removeAction(Action action) {
+	public Item removeAction(Action action) {
 		actions.remove(action);
 		return this;
 	}
-	public MenuItem addActions(List<Action> actions) {
+	public Item addActions(List<Action> actions) {
 		this.actions.addAll(actions);
 		return this;
 	}
@@ -47,33 +50,33 @@ public class MenuItem extends MenuObject {
 		return actions;
 	}
 
-	public MenuItem setLink(MenuPage link) {
+	public Item setLink(Page link) {
 		this.link = link;
 		return this;
 	}
-	public MenuPage getLink() {
+	public Page getLink() {
 		return link;
 	}
 
-	public MenuPage runActions() {
+	public Page runActions() {
 		for (var action : actions)
 			action.execute(this);
 		return link;
 	}
 
-	public static MenuItem Ender(MenuPage parent) {
-		return new MenuItem(parent.getName()+"_ender", parent, null, enderLabel)
-				.addAction(x -> ((MenuCreator)parent.getParent()).getController().stop());
+	public static Item Ender(Page parent) {
+		return new Item(parent.getName()+"_ender", parent, null, enderLabel)
+				.addAction(x -> ((Controller)parent.getContainer()).stop());
 	}
 	public static String getEnderLabel() {
 		return enderLabel;
 	}
 	public static void setEnderLabel(String enderLabel) {
-		MenuItem.enderLabel = enderLabel;
+		Item.enderLabel = enderLabel;
 	}
 
-	public static MenuItem Backer(MenuPage from, MenuPage to) {
-		return new MenuItem(from.getName()+"_backer", from, to, backerLabel);
+	public static Item Backer(Page from, Page to) {
+		return new Item(from.getName()+"_backer", from, to, backerLabel);
 	}
 	public static String getBackerLabel() {
 		return backerLabel;
@@ -88,8 +91,8 @@ public class MenuItem extends MenuObject {
 		private String name;
 		private String label;
 		private final List<Action> actions = new ArrayList<>();
-		private MenuPage link;
-		private MenuPage parent;
+		private Page link;
+		private Page parent;
 
 		public Builder setName(String name) {
 			this.name = name;
@@ -103,17 +106,17 @@ public class MenuItem extends MenuObject {
 			this.actions.add(action);
 			return this;
 		}
-		public Builder setLink(MenuPage link) {
+		public Builder setLink(Page link) {
 			this.link = link;
 			return this;
 		}
-		public Builder setParent(MenuPage parent) {
+		public Builder setParent(Page parent) {
 			this.parent = parent;
 			return this;
 		}
 
-		public MenuItem build() {
-			return new MenuItem(this);
+		public Item build() {
+			return new Item(this);
 		}
 	}
 }

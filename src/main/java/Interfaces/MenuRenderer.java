@@ -1,4 +1,6 @@
-package Menu;
+package Interfaces;
+
+import Menu.Item;
 
 import java.util.List;
 
@@ -13,7 +15,7 @@ public interface MenuRenderer {
 	 * Renders the menu items.
 	 * @param items The list of menu items.
 	 */
-	void renderItems(List<MenuItem> items);
+	void renderItems(List<Item> items);
 
 	/**
 	 * Requests the user's choice.

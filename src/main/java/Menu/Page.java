@@ -1,47 +1,47 @@
 package Menu;
 
+import Abstract.MenuObject;
+
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 
-public class MenuPage extends MenuObject {
+public class Page extends MenuObject {
 	private String title;
-	private MenuItem zeroth;
-	private final ArrayList<MenuItem> itemList = new ArrayList<>(10);
+	private final ArrayList<Item> itemList = new ArrayList<>(10);
 
-	public MenuPage(String name, MenuObject parent) {
+	public Page(String name, MenuObject parent) {
 		super(name,parent);
 		this.itemList.add(null);
 		this.setEnder();
 	}
 
-	public MenuPage addItem(MenuItem item) throws IllegalStateException {
+	public Page addItem(Item item) throws IllegalStateException {
 		if (itemList.size()<9)
 			itemList.add(item);
 		else
 			throw new IllegalStateException("Count of items in a page must be less than 10");
 		return this;
 	}
-	public MenuItem getItem(int index) throws IndexOutOfBoundsException {
+	public Item getItem(int index) throws IndexOutOfBoundsException {
 		if (index < 0 || index >= itemList.size()) throw new IndexOutOfBoundsException();
 		return itemList.get(index);
 	}
-	public ArrayList<MenuItem> getItemList() {
+	public ArrayList<Item> getItemList() {
 		return itemList;
 	}
 	public String getTitle() {
 		return title;
 	}
 
-	public MenuPage setTitle(String title) {
+	public Page setTitle(String title) {
 		this.title = title;
 		return this;
 	}
-	public MenuPage setBacker(MenuPage destination) {
-		this.itemList.set(0, MenuItem.Backer(this,destination));
+	public Page setBacker(Page destination) {
+		this.itemList.set(0, Item.Backer(this,destination));
 		return this;
 	}
-	public MenuPage setEnder() {
-		this.itemList.set(0, MenuItem.Ender(this));
+	public Page setEnder() {
+		this.itemList.set(0, Item.Ender(this));
 		return this;
 	}
 

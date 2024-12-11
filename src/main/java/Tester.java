@@ -1,46 +1,47 @@
-import Menu.ConsoleRenderer;
-import Menu.MenuController;
-import Menu.MenuCreator;
-import Menu.MenuItem;
+import Interfaces.MenuRenderer;
+import Renderer.ConsoleRenderer;
+import Menu.Controller;
+import Menu.Item;
 
 public class Tester {
 	public static void main(String[] args) {
-		MenuCreator creator = new MenuCreator();
+		MenuRenderer renderer = new ConsoleRenderer();
+		Controller controller = new Controller.Builder().setRenderer(renderer).build();
 
-		var page1 = creator.addPage("main").setTitle("Hello this is main page");
-		var page2 = creator.addPage("second").setTitle("This is second page");
+		var page1 = controller.addPage("main").setTitle("Hello this is main page");
+		var page2 = controller.addPage("second").setTitle("This is second page");
+
+		controller.setStartPage(page1);
 
 		page1
-				.addItem(new MenuItem.Builder()
+				.addItem(new Item.Builder()
 						.setLabel("Опция 1")
 						.setLink(page2)
 						.addAction((Object caller) -> {
 							System.out.print("First Action is executing... ");
-							System.out.println("Caller: "+((MenuItem)caller).getLabel());
+							System.out.println("Caller: "+((Item)caller).getLabel());
 						})
 						.addAction((Object caller) -> {
 							System.out.print("Second Action is executing... ");
-							System.out.println("Caller: "+((MenuItem)caller).getLabel());
+							System.out.println("Caller: "+((Item)caller).getLabel());
 						})
 						.build())
-				.addItem(new MenuItem.Builder()
+				.addItem(new Item.Builder()
 						.setName("label1")
 						.setLabel("Опция два")
 						.addAction((Object caller) -> {
 							System.out.print("Action is executing... ");
-							System.out.println("Caller: "+((MenuItem)caller).getLabel());
+							System.out.println("Caller: "+((Item)caller).getLabel());
 						})
 						.build())
 				.setEnder();
 		page2
-				.addItem(new MenuItem.Builder()
+				.addItem(new Item.Builder()
 						.setName("label2")
 						.setLabel("secccond")
 						.build())
 				.setBacker(page1);
 
-		MenuController mc = new MenuController(creator, new ConsoleRenderer(), page1);
-
-		mc.run();
+		controller.run();
 	}
 }

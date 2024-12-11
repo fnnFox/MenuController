@@ -1,4 +1,8 @@
-package Menu;
+package Renderer;
+
+import Interfaces.MenuRenderer;
+import Menu.Item;
+import Messages.Messages;
 
 import java.util.List;
 import java.util.Scanner;
@@ -11,7 +15,7 @@ public class ConsoleRenderer implements MenuRenderer {
 	}
 
 	@Override
-	public void renderItems(List<MenuItem> items) {
+	public void renderItems(List<Item> items) {
 		for (int i = 1; i < items.size(); i++) {
 			System.out.println(i + ". " + items.get(i).getLabel());
 		}
