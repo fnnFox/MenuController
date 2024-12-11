@@ -1,9 +1,8 @@
-package Menu;
+package Messages;
 
 public enum Messages {
 	INDEX_OUT_OF_BOUNDS("Inserted number is out of bounds. Try again."),
-	INCORRECT_INPUT("Incorrect input. Try again."),
-	GET_BACK("Back");
+	INCORRECT_INPUT("Incorrect input. Try again.");
 
 	private String message;
 	Messages(String message){
