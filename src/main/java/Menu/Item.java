@@ -64,10 +64,6 @@ public class Item extends MenuObject {
 		return link;
 	}
 
-	public static Item Ender(Page parent) {
-		return new Item(parent.getName()+"_ender", parent, null, enderLabel)
-				.addAction(x -> ((Controller)parent.getContainer()).stop());
-	}
 	public static String getEnderLabel() {
 		return enderLabel;
 	}
@@ -75,9 +71,6 @@ public class Item extends MenuObject {
 		Item.enderLabel = enderLabel;
 	}
 
-	public static Item Backer(Page from, Page to) {
-		return new Item(from.getName()+"_backer", from, to, backerLabel);
-	}
 	public static String getBackerLabel() {
 		return backerLabel;
 	}

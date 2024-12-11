@@ -37,26 +37,12 @@ public class Page extends MenuObject {
 		return this;
 	}
 	public Page setBacker(Page destination) {
-		this.itemList.set(0, Item.Backer(this,destination));
+		this.itemList.set(0, new Item(this.getName()+"_backer", this, destination, Item.getBackerLabel()));
 		return this;
 	}
 	public Page setEnder() {
-		this.itemList.set(0, Item.Ender(this));
+		this.itemList.set(0, new Item(this.getName()+"_ender", this, null, Item.getEnderLabel())
+				.addAction(x -> ((Controller)this.getContainer()).stop()));
 		return this;
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder output = new StringBuilder();
-		output.append(title).append("\n");
-		for (int i = 0; i < itemList.size(); i++) {
-			output
-					.append(i+1)
-					.append(". ")
-					.append(itemList.get(i).getLabel())
-					.append("\n");
-		}
-		output.deleteCharAt(output.length()-1);
-		return output.toString();
 	}
 }
